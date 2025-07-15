@@ -18,7 +18,9 @@ body {
 .card-container {
     position: relative;
     width: 320px;
-    height: 480px; <!-- Controllare -->
+    height: 480px;
+    perspective: 1000px;
+    cursor: grab;
 }
 
 .card-container:active {
@@ -54,10 +56,11 @@ body {
 .card-front {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 30px;
+    justify-content: flex-end;
+    align-items: stretch;
+    padding: 8px;
     text-align: center;
+    position: relative;
 }
 
 .card-back {
@@ -68,27 +71,37 @@ body {
     justify-content: center;
 }
 
-.card-image {
-    width: 200px;
-    height: 200px;
-    border-radius: 15px;
+.card-video {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    border-radius: 12px;
     object-fit: cover;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 .card-title {
     font-size: 28px;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 15px;
+    color: white;
+    margin-bottom: 30px;
     line-height: 1.2;
+    z-index: 2;
+    position: relative;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .card-subtitle {
     font-size: 16px;
-    color: #666;
-    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    /*margin-bottom: 20px;*/
+    z-index: 2;
+    position: relative;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .card-text {
