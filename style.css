@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    overflow: hidden;
+}
+
+.card-container {
+    position: relative;
+    width: 320px;
+    height: 480px; <!-- Controllare -->
+}
+
+.card-container:active {
+    cursor: grabbing;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-front {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.card-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.card-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    text-align: left;
+}
+
+.swipe-indicator {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    animation: pulse 2s infinite;
+}
+
+.swipe-arrow {
+    font-size: 20px;
+    animation: bounce 1s infinite alternate;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+@keyframes bounce {
+    0% { transform: translateX(-2px); }
+    100% { transform: translateX(2px); }
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.floating-element {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: float 4s ease-in-out infinite;
+}
+
+.floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.floating-element:nth-child(2) { top: 60%; left: 80%; animation-delay: 1s; }
+.floating-element:nth-child(3) { top: 30%; left: 70%; animation-delay: 2s; }
+.floating-element:nth-child(4) { top: 80%; left: 20%; animation-delay: 3s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card-container {
+        width: 280px;
+        height: 420px;
+    }
+
+    .card-image {
+        width: 160px;
+        height: 160px;
+    }
+
+    .card-title {
+        font-size: 24px;
+    }
+
+    .card-text {
+        font-size: 14px;
+    }
+}

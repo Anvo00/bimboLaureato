@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BimboLaureatoCard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="floating-elements">
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+</div>
+
+<div class="card-container" id="cardContainer">
+    <div class="card" id="card">
+        <div class="card-face card-front">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop&crop=center" alt="Immagine esempio" class="card-image">
+            <h2 class="card-title">Esperienza Unica</h2>
+            <p class="card-subtitle">Scorri per scoprire di più</p>
+        </div>
+        <div class="card-face card-back">
+            <h2 class="card-title">La Storia</h2>
+            <p class="card-text">
+                Questa è una card interattiva che puoi ruotare con un semplice swipe a destra o a sinistra.
+                <br><br>
+                Il design è moderno e fluido, perfetto per dispositivi mobile. Puoi personalizzare completamente
+                il contenuto, le immagini e i colori secondo le tue esigenze.
+                <br><br>
+                L'animazione è fluida e responsive, garantendo un'esperienza utente ottimale su tutti i dispositivi.
+            </p>
+        </div>
+    </div>
+
+    <div class="swipe-indicator">
+        <span class="swipe-arrow">←</span>
+        <span>Scorri per girare</span>
+        <span class="swipe-arrow">→</span>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
