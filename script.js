@@ -31,8 +31,16 @@ function handleMove(e) {
     currentX = e.touches ? e.touches[0].clientX : e.clientX;
     const deltaX = currentX - startX;
 
-    // Effetto di rotazione durante il drag
-    const rotationY = isFlipped ? 180 + (deltaX * 0.3) : deltaX * 0.3;
+    // FIX: Calcolo corretto della rotazione basato sullo stato attuale
+    let rotationY;
+    if (isFlipped) {
+        // Se la card è già girata, partiamo da 180 gradi
+        rotationY = 180 + (deltaX * 0.3);
+    } else {
+        // Se la card è nella posizione normale, partiamo da 0 gradi
+        rotationY = deltaX * 0.3;
+    }
+
     card.style.transform = `rotateY(${rotationY}deg)`;
 }
 
@@ -46,10 +54,32 @@ function handleEnd(e) {
     // Ripristina la transizione
     card.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
+    // FIX: Logica migliorata per gestire entrambe le direzioni
     if (Math.abs(deltaX) > threshold) {
-        // Flip della card
-        isFlipped = !isFlipped;
-        card.classList.toggle('flipped', isFlipped);
+        // Determina la direzione dello swipe
+        if (deltaX > 0) {
+            // Swipe verso destra
+            if (!isFlipped) {
+                // Se non è girata, girala
+                isFlipped = true;
+                card.classList.add('flipped');
+            } else {
+                // Se è già girata, riportala normale
+                isFlipped = false;
+                card.classList.remove('flipped');
+            }
+        } else {
+            // Swipe verso sinistra
+            if (!isFlipped) {
+                // Se non è girata, girala
+                isFlipped = true;
+                card.classList.add('flipped');
+            } else {
+                // Se è già girata, riportala normale
+                isFlipped = false;
+                card.classList.remove('flipped');
+            }
+        }
     } else {
         // Ritorna alla posizione originale
         card.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
@@ -68,16 +98,12 @@ document.addEventListener('touchmove', function(e) {
 
 // Nascondi l'indicatore dopo il primo utilizzo
 let firstInteraction = true;
-cardContainer.addEventListener('touchstart', function() {
+function hideIndicator() {
     if (firstInteraction) {
         document.querySelector('.swipe-indicator').style.opacity = '0';
         firstInteraction = false;
     }
-});
+}
 
-cardContainer.addEventListener('mousedown', function() {
-    if (firstInteraction) {
-        document.querySelector('.swipe-indicator').style.opacity = '0';
-        firstInteraction = false;
-    }
-});
+cardContainer.addEventListener('touchstart', hideIndicator);
+cardContainer.addEventListener('mousedown', hideIndicator);

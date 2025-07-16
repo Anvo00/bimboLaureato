@@ -51,25 +51,49 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    top: 0;
+    left: 0;
 }
 
 .card-front {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: stretch;
-    padding: 8px;
+    padding: 5px;
     text-align: center;
     position: relative;
 }
 
 .card-back {
     transform: rotateY(180deg);
-    padding: 40px 30px;
+    padding: 20px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
+.card-back::-webkit-scrollbar {
+    width: 3px;
+}
+
+.card-back::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.card-back::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.card-back::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
 
 .card-video {
     position: absolute;
@@ -85,20 +109,22 @@ body {
 }
 
 .card-title {
-    font-size: 28px;
+    font-family: "relationship of mélodrame";
+    font-size: 40px;
     font-weight: 700;
-    color: white;
-    margin-bottom: 30px;
-    line-height: 1.2;
+    color: #fff307;
+    margin-top: 0px;
+    line-height: 1;
     z-index: 2;
     position: relative;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 25%);
 }
 
 .card-subtitle {
+    font-family: "Better Together";
     font-size: 16px;
     color: rgba(255, 255, 255, 0.9);
-    /*margin-bottom: 20px;*/
+    margin-top: 25px;
     z-index: 2;
     position: relative;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
@@ -109,6 +135,7 @@ body {
     line-height: 1.6;
     color: #444;
     text-align: left;
+    overflow-y: auto;
 }
 
 .swipe-indicator {
@@ -122,6 +149,9 @@ body {
     color: rgba(255, 255, 255, 0.7);
     font-size: 14px;
     animation: pulse 2s infinite;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+    min-width: 200px;
 }
 
 .swipe-arrow {
@@ -186,5 +216,9 @@ body {
 
     .card-text {
         font-size: 14px;
+    }
+
+    .swipe-indicator{
+        font-size: 12px;
     }
 }
