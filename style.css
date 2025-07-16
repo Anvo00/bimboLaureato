@@ -130,6 +130,23 @@ body {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
+@font-face {
+    font-family: 'relationship of mélodrame';
+    src: url('fonts/Relationship of mélodrame.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Better Together';
+    src: url('fonts/Better Together Script.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 .card-text {
     font-size: 16px;
     line-height: 1.6;
