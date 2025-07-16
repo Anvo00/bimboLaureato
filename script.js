@@ -17,10 +17,18 @@ cardContainer.addEventListener('mousemove', handleMove);
 cardContainer.addEventListener('mouseup', handleEnd);
 cardContainer.addEventListener('mouseleave', handleEnd);
 
+// Click event per alternativa semplice
+cardContainer.addEventListener('click', function(e) {
+    if (!isDragging) {
+        toggleCard();
+    }
+});
+
 function handleStart(e) {
     e.preventDefault();
     isDragging = true;
     startX = e.touches ? e.touches[0].clientX : e.clientX;
+    currentX = startX;
     card.style.transition = 'none';
 }
 
@@ -31,7 +39,7 @@ function handleMove(e) {
     currentX = e.touches ? e.touches[0].clientX : e.clientX;
     const deltaX = currentX - startX;
 
-    // FIX: Calcolo corretto della rotazione basato sullo stato attuale
+    // FIX: Correzione dell'errore di sintassi nella template string
     let rotationY;
     if (isFlipped) {
         // Se la card è già girata, partiamo da 180 gradi
@@ -41,7 +49,7 @@ function handleMove(e) {
         rotationY = deltaX * 0.3;
     }
 
-    card.style.transform = rotateY(${rotationY}deg);
+    card.style.transform = `rotateY(${rotationY}deg)`;
 }
 
 function handleEnd(e) {
@@ -54,32 +62,10 @@ function handleEnd(e) {
     // Ripristina la transizione
     card.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
 
-    // FIX: Logica migliorata per gestire entrambe le direzioni
+    // FIX: Logica semplificata per lo swipe
     if (Math.abs(deltaX) > threshold) {
-        // Determina la direzione dello swipe
-        if (deltaX > 0) {
-            // Swipe verso destra
-            if (!isFlipped) {
-                // Se non è girata, girala
-                isFlipped = true;
-                card.classList.add('flipped');
-            } else {
-                // Se è già girata, riportala normale
-                isFlipped = false;
-                card.classList.remove('flipped');
-            }
-        } else {
-            // Swipe verso sinistra
-            if (!isFlipped) {
-                // Se non è girata, girala
-                isFlipped = true;
-                card.classList.add('flipped');
-            } else {
-                // Se è già girata, riportala normale
-                isFlipped = false;
-                card.classList.remove('flipped');
-            }
-        }
+        // Qualsiasi swipe superiore alla soglia fa girare la card
+        toggleCard();
     } else {
         // Ritorna alla posizione originale
         card.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
@@ -91,19 +77,48 @@ function handleEnd(e) {
     }, 600);
 }
 
-// Previeni il comportamento di default del browser
-document.addEventListener('touchmove', function(e) {
-    e.preventDefault();
+function toggleCard() {
+    isFlipped = !isFlipped;
+    if (isFlipped) {
+        card.classList.add('flipped');
+    } else {
+        card.classList.remove('flipped');
+    }
+    hideIndicator();
+}
+
+// Previeni il comportamento di default del browser solo durante il drag
+let touchStartY = 0;
+cardContainer.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+});
+
+cardContainer.addEventListener('touchmove', function(e) {
+    if (isDragging) {
+        const touchCurrentY = e.touches[0].clientY;
+        const deltaY = Math.abs(touchCurrentY - touchStartY);
+        const deltaX = Math.abs(currentX - startX);
+
+        // Previeni scroll solo se il movimento è più orizzontale che verticale
+        if (deltaX > deltaY) {
+            e.preventDefault();
+        }
+    }
 }, { passive: false });
 
 // Nascondi l'indicatore dopo il primo utilizzo
 let firstInteraction = true;
 function hideIndicator() {
     if (firstInteraction) {
-        document.querySelector('.swipe-indicator').style.opacity = '0';
+        const indicator = document.querySelector('.swipe-indicator');
+        if (indicator) {
+            indicator.style.opacity = '0';
+            indicator.style.transition = 'opacity 0.5s ease';
+        }
         firstInteraction = false;
     }
 }
 
+// Inizializza gli event listeners per nascondere l'indicatore
 cardContainer.addEventListener('touchstart', hideIndicator);
 cardContainer.addEventListener('mousedown', hideIndicator);
