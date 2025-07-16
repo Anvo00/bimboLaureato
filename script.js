@@ -41,7 +41,7 @@ function handleMove(e) {
         rotationY = deltaX * 0.3;
     }
 
-    card.style.transform = `rotateY(${rotationY}deg)`;
+    card.style.transform = rotateY(${rotationY}deg);
 }
 
 function handleEnd(e) {
